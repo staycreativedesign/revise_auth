@@ -1,24 +1,23 @@
 class ReviseAuth::PasswordResetsController < ReviseAuthController
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_account, only: %i[edit update]
 
   def new
-    @user = User.new
+    @account = Account.new
   end
 
   def create
-    user = User.find_by(email: user_params[:email])
-    user&.send_password_reset_instructions
+    account = Account.find_by(email: account_params[:email])
+    account&.send_password_reset_instructions
 
-    flash[:notice] = t(".password_reset_sent")
+    flash[:notice] = t('.password_reset_sent')
     redirect_to login_path
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    if @user.update(password_params)
-      flash[:notice] = t("revise_auth.password.update.password_changed")
+    if @account.update(password_params)
+      flash[:notice] = t('revise_auth.password.update.password_changed')
       redirect_to login_path
     else
       render :edit, status: :unprocessable_entity
@@ -27,20 +26,20 @@ class ReviseAuth::PasswordResetsController < ReviseAuthController
 
   private
 
-  def set_user
-    @user = User.find_by_token_for(:password_reset, params[:token])
+  def set_account
+    @account = Account.find_by_token_for(:password_reset, params[:token])
 
-    return if @user.present?
+    return if @account.present?
 
-    flash[:alert] = t(".invalid_password_link")
+    flash[:alert] = t('.invalid_password_link')
     redirect_to new_password_reset_path
   end
 
-  def user_params
-    params.require(:user).permit(:email)
+  def account_params
+    params.require(:account).permit(:email)
   end
 
   def password_params
-    params.require(:user).permit(:password, :password_confirmation)
+    params.require(:account).permit(:password, :password_confirmation)
   end
 end

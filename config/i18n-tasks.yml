@@ -91,7 +91,7 @@ search:
   ## The available matchers are:
   ## - RailsModelMatcher
   ##     Matches ActiveRecord translations like
-  ##     User.human_attribute_name(:email) and User.model_name.human
+  ##     Account.human_attribute_name(:email) and Account.model_name.human
   ##
   ## To implement your own, please see `I18n::Tasks::Scanners::AstMatchers::BaseMatcher`.
   # <%# I18n::Tasks.add_ast_matcher('I18n::Tasks::Scanners::AstMatchers::RailsModelMatcher') %>

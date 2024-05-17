@@ -1,13 +1,12 @@
 class ReviseAuth::SessionsController < ReviseAuthController
-  def new
-  end
+  def new; end
 
   def create
-    if (user = User.authenticate_by(email: params[:email], password: params[:password]))
-      login(user)
+    if (account = Account.authenticate_by(email: params[:email], password: params[:password]))
+      login(account)
       redirect_to resolve_after_login_path
     else
-      flash[:alert] = t(".invalid_email_or_password")
+      flash[:alert] = t('.invalid_email_or_password')
       render :new, status: :unprocessable_entity
     end
   end
@@ -24,6 +23,6 @@ class ReviseAuth::SessionsController < ReviseAuthController
   end
 
   def return_to_location
-    session.delete(:user_return_to)
+    session.delete(:account_return_to)
   end
 end
