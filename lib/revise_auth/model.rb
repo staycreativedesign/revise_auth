@@ -27,13 +27,13 @@ module ReviseAuth
     # Generates a confirmation token and send email to the account
     def send_confirmation_instructions
       token = generate_token_for(:email_verification)
-      ReviseAuth::Mailer.with(account: self, token:).confirm_email.deliver_later
+      ReviseAuth::Mailer.with(account: self, token:).confirm_email.deliver_now
     end
 
     # Generates a password reset token and send email to the account
     def send_password_reset_instructions
       token = generate_token_for(:password_reset)
-      ReviseAuth::Mailer.with(account: self, token:).password_reset.deliver_later
+      ReviseAuth::Mailer.with(account: self, token:).password_reset.deliver_now
     end
 
     def confirm_email_change
