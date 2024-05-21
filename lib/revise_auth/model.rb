@@ -19,21 +19,21 @@ module ReviseAuth
       normalizes :email, with: -> { _1.strip.downcase }
       normalizes :unconfirmed_email, with: -> { _1.strip.downcase }
 
-      validates :email, format: {with: URI::MailTo::EMAIL_REGEXP}, presence: true, uniqueness: true
-      validates :unconfirmed_email, format: {with: URI::MailTo::EMAIL_REGEXP}, allow_blank: true
+      validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true, uniqueness: true
+      validates :unconfirmed_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
       validates_length_of :password, minimum: ReviseAuth.minimum_password_length, allow_nil: true
     end
 
-    # Generates a confirmation token and send email to the user
+    # Generates a confirmation token and send email to the account
     def send_confirmation_instructions
       token = generate_token_for(:email_verification)
-      ReviseAuth::Mailer.with(user: self, token: token).confirm_email.deliver_later
+      ReviseAuth::Mailer.with(account: self, token:).confirm_email.deliver_later
     end
 
-    # Generates a password reset token and send email to the user
+    # Generates a password reset token and send email to the account
     def send_password_reset_instructions
       token = generate_token_for(:password_reset)
-      ReviseAuth::Mailer.with(user: self, token: token).password_reset.deliver_later
+      ReviseAuth::Mailer.with(account: self, token:).password_reset.deliver_later
     end
 
     def confirm_email_change
