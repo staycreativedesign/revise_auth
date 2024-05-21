@@ -1,6 +1,6 @@
 <h1><%=t ".sign_up" %></h1>
 
-<%= form_with model: @user, url: sign_up_path do |form| %>
+<%= form_with model: @account, url: sign_up_path do |form| %>
   <% if form.object.errors.any? %>
     <ul>
       <% form.object.errors.full_messages.each do |message| %>
